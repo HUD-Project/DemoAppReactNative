@@ -54,7 +54,13 @@ export default function App() {
 					})}
 				>
 					<Tab.Screen name="Home" component={Home} />
-					<Tab.Screen name="Display" component={Display} />
+					<Tab.Screen
+						name="Display"
+						component={Display}
+						options={{
+							tabBarStyle: { display: "none" },
+						}}
+					/>
 					<Tab.Screen name="Settings">
 						{() => (
 							<Settings

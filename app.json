@@ -3,7 +3,7 @@
     "name": "Demo-App",
     "slug": "Demo-App",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "both",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
