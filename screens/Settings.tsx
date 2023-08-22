@@ -1,16 +1,18 @@
-import { View, Text, SafeAreaView, StyleSheet, Switch } from "react-native";
+import { View, Text, SafeAreaView, StyleSheet, Switch, Button } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Dispatch, SetStateAction, useState } from "react";
 import Slider from "@react-native-community/slider";
+import { useNavigation } from "@react-navigation/native";
 
 interface Props {
 	xEnabled: Dispatch<SetStateAction<boolean>>;
 	yEnabled: Dispatch<SetStateAction<boolean>>;
 	sliderXVal: Dispatch<SetStateAction<number>>;
 	sliderYVal: Dispatch<SetStateAction<number>>;
+	navigation: { navigation: any }
 }
 
-const Settings = ({ xEnabled, yEnabled, sliderXVal, sliderYVal }: Props) => {
+const Settings = ({ xEnabled, yEnabled, sliderXVal, sliderYVal, navigation}: Props) => {
 	const [isXEnabled, setIsXEnabled] = useState(false);
 	const toggleXSwitch = () => {
 		xEnabled(!isXEnabled);
@@ -82,6 +84,9 @@ const Settings = ({ xEnabled, yEnabled, sliderXVal, sliderYVal }: Props) => {
 						value={sliderYValue}
 						onValueChange={(newValue) => handleYSlider(newValue)}
 					/>
+				</View>
+				<View style={{ flexDirection: "row" }}>
+					<Button title="Layout" onPress={() => navigation.navigate("Layout")}></Button>
 				</View>
 				<StatusBar style="auto" />
 			</View>

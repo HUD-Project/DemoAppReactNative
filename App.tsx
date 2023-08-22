@@ -7,6 +7,7 @@ import "react-native-gesture-handler";
 import Home from "./screens/Home";
 import Display from "./screens/Display";
 import { useState } from "react";
+import Layout from "./screens/Layout";
 
 const Tab = createBottomTabNavigator();
 
@@ -62,15 +63,24 @@ export default function App() {
 						}}
 					/>
 					<Tab.Screen name="Settings">
-						{() => (
+						{({navigation}) => (
 							<Settings
 								xEnabled={setIsXEnabled}
 								yEnabled={setIsYEnabled}
 								sliderXVal={setSliderXValue}
 								sliderYVal={setSliderYValue}
+								navigation={navigation}
 							/>
 						)}
 					</Tab.Screen>
+					<Tab.Screen
+						name="Layout"
+						component={Layout}
+						options={{
+							tabBarStyle: { display: "none" },
+							tabBarButton: () => null
+						}}
+					/>
 				</Tab.Navigator>
 			</NavigationContainer>
 		</View>
