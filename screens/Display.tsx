@@ -24,12 +24,49 @@ const handleDisplayExit = async (
 const Display = ({ navigation }: { navigation: any }) => {
 	const initial = [false, false];
 	const [displayBack, setDisplayBack] = useState(true);
+	const initialFocus = [];
+
+	// useState and handle function for handling the eyetracking focus of Weather
+	// first element decides whether or not the weather is displayed, the second is for the additional info
 	const [displayWeather, setDisplayWeather] = useState(initial);
 	const handleWeatherInfo = () => {
-		setDisplayWeather([displayWeather[0], displayWeather[1]]);
+		setDisplayWeather([displayWeather[0], !displayWeather[1]]);
+		const tempArray = [...focusedIndex];
+		tempArray[0] = !tempArray[0];
+		setFocusedIndex(tempArray);
 	};
-	console.log(displayWeather);
-	const styles = getStyles(displayWeather);
+	initialFocus.push(false);
+
+	// useState and handle function for handling the eyetracking focus of Time
+	// first element decides whether or not the time is displayed, the second is for the additional info
+	const [displayTime, setDisplayTime] = useState(initial);
+	const handleTimeInfo = () => {
+		setDisplayTime([displayTime[0], !displayTime[1]]);
+		const tempArray = [...focusedIndex];
+		tempArray[1] = !tempArray[1];
+		setFocusedIndex(tempArray);
+	};
+	initialFocus.push(false);
+
+	// useState and handle function for handling the eyetracking focus of Notes
+	// first element decides whether or not the notes are displayed, the second is for the additional info
+	const [displayNotes, setDisplayNotes] = useState(initial);
+	const handleNotesInfo = () => {
+		setDisplayNotes([displayNotes[0], !displayNotes[1]]);
+		const tempArray = [...focusedIndex];
+		tempArray[2] = !tempArray[2];
+		setFocusedIndex(tempArray);
+	};
+	initialFocus.push(false);
+
+	const [focusedIndex, setFocusedIndex] = useState(initialFocus);
+
+	const styles = getStyles(
+		displayWeather,
+		displayTime,
+		displayNotes,
+		focusedIndex
+	);
 	return (
 		<TouchableWithoutFeedback
 			onPress={async () => {
@@ -50,22 +87,86 @@ const Display = ({ navigation }: { navigation: any }) => {
 					/>
 				</View>
 				<View style={styles.container}>
-					<View style={styles.subContainer}>
+					<View
+						style={[
+							styles.subContainer,
+							{ flex: focusedIndex[0] ? 3 : 1 },
+						]}
+					>
 						<Text
+							onPress={handleWeatherInfo}
 							onPressIn={handleWeatherInfo}
 							onPressOut={handleWeatherInfo}
+							style={[
+								styles.mainText,
+								focusedIndex[0] ? { fontSize: 60 } : null,
+							]}
 						>
 							Weather
 						</Text>
-						<Text style={styles.weatherInfo}>23°</Text>
+						<Text
+							style={[
+								styles.weatherInfo,
+								styles.subText,
+								focusedIndex[0] ? { fontSize: 35 } : null,
+							]}
+						>
+							23°
+						</Text>
 					</View>
-					<View style={styles.subContainer}>
-						<Text>Time</Text>
-						<Text>{moment().format("LT")}</Text>
+					<View
+						style={[
+							styles.subContainer,
+							{ flex: focusedIndex[1] ? 3 : 1 },
+						]}
+					>
+						<Text
+							onPress={handleTimeInfo}
+							onPressIn={handleTimeInfo}
+							onPressOut={handleTimeInfo}
+							style={[
+								styles.mainText,
+								focusedIndex[1] ? { fontSize: 60 } : null,
+							]}
+						>
+							Time
+						</Text>
+						<Text
+							style={[
+								styles.timeInfo,
+								styles.subText,
+								focusedIndex[1] ? { fontSize: 35 } : null,
+							]}
+						>
+							{moment().format("LT")}
+						</Text>
 					</View>
-					<View style={styles.subContainer}>
-						<Text>Notes</Text>
-						<Text>note1, note2, note3</Text>
+					<View
+						style={[
+							styles.subContainer,
+							{ flex: focusedIndex[2] ? 3 : 1 },
+						]}
+					>
+						<Text
+							onPress={handleNotesInfo}
+							onPressIn={handleNotesInfo}
+							onPressOut={handleNotesInfo}
+							style={[
+								styles.mainText,
+								focusedIndex[2] ? { fontSize: 60 } : null,
+							]}
+						>
+							Notes
+						</Text>
+						<Text
+							style={[
+								styles.notesInfo,
+								styles.subText,
+								focusedIndex[2] ? { fontSize: 35 } : null,
+							]}
+						>
+							note1, note2, note3
+						</Text>
 					</View>
 				</View>
 				<StatusBar style="auto" />
@@ -74,7 +175,12 @@ const Display = ({ navigation }: { navigation: any }) => {
 	);
 };
 
-const getStyles = (displayWeatherInfo: boolean[]) =>
+const getStyles = (
+	displayWeatherInfo: boolean[],
+	displayTimeInfo: boolean[],
+	displayNotesInfo: boolean[],
+	focusedIndex: boolean[]
+) =>
 	StyleSheet.create({
 		mainContainer: {
 			flex: 1,
@@ -87,18 +193,36 @@ const getStyles = (displayWeatherInfo: boolean[]) =>
 			flex: 1,
 			flexDirection: "row",
 			backgroundColor: "#af45sd",
-			alignItems: "center",
+			alignItems: "flex-start",
 			justifyContent: "center",
+		},
+
+		mainText: {
+			fontSize: focusedIndex.includes(true) ? 20 : 40,
+		},
+
+		subText: {
+			fontSize: 25,
 		},
 
 		subContainer: {
 			flex: 1,
 			alignItems: "center",
 			justifyContent: "center",
+			margin: 0,
+			padding: 0,
 		},
 
 		weatherInfo: {
-			display: { displayWeatherInfo } ? "flex" : "none",
+			display: displayWeatherInfo[1] ? "flex" : "none",
+		},
+
+		timeInfo: {
+			display: displayTimeInfo[1] ? "flex" : "none",
+		},
+
+		notesInfo: {
+			display: displayNotesInfo[1] ? "flex" : "none",
 		},
 	});
 
