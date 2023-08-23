@@ -87,7 +87,12 @@ const Display = ({ navigation }: { navigation: any }) => {
 					/>
 				</View>
 				<View style={styles.container}>
-					<View style={styles.subContainer}>
+					<View
+						style={[
+							styles.subContainer,
+							{ flex: focusedIndex[0] ? 3 : 1 },
+						]}
+					>
 						<Text
 							onPress={handleWeatherInfo}
 							onPressIn={handleWeatherInfo}
@@ -109,7 +114,12 @@ const Display = ({ navigation }: { navigation: any }) => {
 							23°
 						</Text>
 					</View>
-					<View style={styles.subContainer}>
+					<View
+						style={[
+							styles.subContainer,
+							{ flex: focusedIndex[1] ? 3 : 1 },
+						]}
+					>
 						<Text
 							onPress={handleTimeInfo}
 							onPressIn={handleTimeInfo}
@@ -131,7 +141,12 @@ const Display = ({ navigation }: { navigation: any }) => {
 							{moment().format("LT")}
 						</Text>
 					</View>
-					<View style={styles.subContainer}>
+					<View
+						style={[
+							styles.subContainer,
+							{ flex: focusedIndex[2] ? 3 : 1 },
+						]}
+					>
 						<Text
 							onPress={handleNotesInfo}
 							onPressIn={handleNotesInfo}
