@@ -2,7 +2,7 @@ import { View, Text, SafeAreaView, StyleSheet, Switch, Button } from "react-nati
 import { StatusBar } from "expo-status-bar";
 import { Dispatch, SetStateAction, useState } from "react";
 import Slider from "@react-native-community/slider";
-import { useNavigation } from "@react-navigation/native";
+
 
 interface Props {
 	xEnabled: Dispatch<SetStateAction<boolean>>;
@@ -87,6 +87,9 @@ const Settings = ({ xEnabled, yEnabled, sliderXVal, sliderYVal, navigation}: Pro
 				</View>
 				<View style={{ flexDirection: "row" }}>
 					<Button title="Layout" onPress={() => navigation.navigate("Layout")}></Button>
+				</View>
+				<View style={{ flexDirection: "row" }}>
+					<Button title="Widgets" onPress={() => navigation.navigate("Widgets")}></Button>
 				</View>
 				<StatusBar style="auto" />
 			</View>

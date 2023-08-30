@@ -8,14 +8,20 @@ import Home from "./screens/Home";
 import Display from "./screens/Display";
 import { useState } from "react";
 import Layout from "./screens/Layout";
+import Widgets from "./screens/Widgets";
+
 
 const Tab = createBottomTabNavigator();
+
+type IconName = "ios-information-circle" | "ios-information-circle-outline" | "ios-list" | "ios-list-outline" | "tv" | "tv-outline";
+
 
 export default function App() {
 	const [isXEnabled, setIsXEnabled] = useState(false);
 	const [isYEnabled, setIsYEnabled] = useState(false);
 	const [sliderXValue, setSliderXValue] = useState(1);
 	const [sliderYValue, setSliderYValue] = useState(1);
+	const [selectedWidgets, setSelectedWidgets] = useState([]);
 
 	const styles = getStyles(
 		isXEnabled,
@@ -29,7 +35,7 @@ export default function App() {
 				<Tab.Navigator
 					screenOptions={({ route }) => ({
 						tabBarIcon: ({ focused, color, size }) => {
-							let iconName;
+							let iconName: IconName;
 							if (route.name === "Home") {
 								iconName = focused
 									? "ios-information-circle"
@@ -40,6 +46,8 @@ export default function App() {
 									: "ios-list-outline";
 							} else if (route.name === "Display") {
 								iconName = focused ? "tv" : "tv-outline";
+							} else {
+								iconName = "ios-information-circle";
 							}
 							return (
 								<Ionicons
@@ -75,12 +83,31 @@ export default function App() {
 					</Tab.Screen>
 					<Tab.Screen
 						name="Layout"
-						component={Layout}
 						options={{
 							tabBarStyle: { display: "none" },
 							tabBarButton: () => null
 						}}
-					/>
+					>
+						{({navigation}) => (
+							<Layout
+							navigation={navigation}
+							selectedWidgets={selectedWidgets}
+							/>
+						)}
+					</Tab.Screen>
+					<Tab.Screen name="Widgets" options={{
+							tabBarStyle: { display: "none" },
+							tabBarButton: () => null}}>
+						
+						{({navigation}) => (
+							<Widgets
+							navigation={navigation}
+							selectedWidgets={selectedWidgets}
+							onSelectWidget={setSelectedWidgets}
+							/>
+						)}
+
+					</Tab.Screen>
 				</Tab.Navigator>
 			</NavigationContainer>
 		</View>
